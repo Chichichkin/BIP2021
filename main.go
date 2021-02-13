@@ -14,7 +14,10 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	app := apps.New()
+	app, err := apps.New()
+	if err != nil {
+		panic(err)
+	}
 
 	log.Println(fmt.Sprintf("Listening on %s port", config.Port))
 	http.ListenAndServe(fmt.Sprintf(":%s", config.Port), app.Route())
