@@ -11,7 +11,7 @@
     "application/json"
   ],
   "paths": {
-    "/register": {
+    "/auth/register": {
       "post": {
         "operationId": "AuthService_Register",
         "responses": {

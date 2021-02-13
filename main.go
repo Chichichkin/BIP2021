@@ -14,7 +14,7 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	app, err := apps.New()
+	app, err := apps.New(config)
 	if err != nil {
 		panic(err)
 	}

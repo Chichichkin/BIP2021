@@ -14,7 +14,7 @@ message RegisterResponse {
 service AuthService {
     rpc Register (RegisterRequest) returns (RegisterResponse) {
         option (google.api.http) = {
-            post: "/register"
+            post: "/auth/register"
         };
     }
 }
