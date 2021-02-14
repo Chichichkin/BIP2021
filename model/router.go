@@ -3,10 +3,10 @@ package model
 import "net/http"
 
 type IApp interface {
-	IRouter
 	Name() string
+	Route() http.Handler
 }
 
-type IRouter interface {
-	Route() http.Handler
+type IMiddleware interface {
+	Handler(next http.Handler) http.Handler
 }

@@ -4,25 +4,31 @@ import (
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
 	"net/http"
-	"polybay/internal/apps/auth"
+	"polybay/internal/apps/default"
+	"polybay/internal/middlewares/authentification"
 	"polybay/model"
 )
 
 type app struct {
-	apps []model.IApp
+	apps           []model.IApp
+	authMiddleware model.IMiddleware
 }
 
-func New(config *model.Config) (model.IRouter, error) {
-	apps := make([]model.IApp, 0, 100)
-	tmp, err := auth.New(config.Database)
+func New(config *model.Config) (*app, error) {
+	ret := &app{apps: make([]model.IApp, 0, 100)}
+	mid, err := authentification.New("localhost:5300")
 	if err != nil {
 		return nil, err
 	}
-	apps = append(apps, tmp)
+	ret.authMiddleware = mid
 
-	return &app{
-		apps: apps,
-	}, nil
+	tmp, err := _default.New("/auth", "localhost:3000", nil)
+	if err != nil {
+		return nil, err
+	}
+	ret.apps = append(ret.apps, tmp)
+
+	return ret, nil
 }
 
 func (a *app) Route() http.Handler {
